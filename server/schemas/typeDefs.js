@@ -3,7 +3,7 @@ const { gql } = require('apollo-server-express');
 
 // Define the GraphQL schema using Apollo Server's gql template literal
 const typeDefs = gql`
-// Define User type with necessary fields
+
     type User {
         _id: ID!
         username: String!
@@ -12,13 +12,13 @@ const typeDefs = gql`
         savedBooks: [Book]
     }
 
-    // Define Auth type for authentication purposes
+
     type Auth {
         token: ID!
         user: User
     }
 
-    // Define Book type with necessary fields
+   
     type Book {
         bookId: ID!
         authors: [String]
@@ -28,7 +28,7 @@ const typeDefs = gql`
         link: String
     }
 
-    // Define input type for adding books
+    
     input InputBook {
         bookId: String
         authors: [String]
@@ -38,12 +38,12 @@ const typeDefs = gql`
         link: String
     }
 
-    // Define queries
+    
     type Query {
         me: User
     }
 
-    // Define mutations
+   
     type Mutation {
         login(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth

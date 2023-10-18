@@ -4,7 +4,7 @@ const { generateToken } = require('../utils/auth');
 
 const resolverFunctions = {
     Query: {
-        currentUser: async (parent, arguments, context) => {
+        me: async (parent, arguments, context) => {
             if (context.user) {
                 const userInfo = await User.findOne({ _id: context.user._id }).select('-__v -password');
                 return userInfo;
@@ -14,13 +14,13 @@ const resolverFunctions = {
     },
 
     Mutation: {
-        register: async (parent, { name, emailAddress, password }) => {
+        addUser: async (parent, { name, emailAddress, password }) => {
             const newUser = await User.create({ username: name, email: emailAddress, password });
             const authToken = generateToken(newUser);
             return { token: authToken, user: newUser };
         },
 
-        authenticate: async (parent, { emailAddress, password }) => {
+        login: async (parent, { emailAddress, password }) => {
             const existingUser = await User.findOne({ email: emailAddress });
             
             if (!existingUser) {
@@ -49,7 +49,7 @@ const resolverFunctions = {
             throw new AuthenticationError('Authorization needed!');
         },
 
-        deleteBook: async (parent, { id }, context) => {
+        removeBook: async (parent, { id }, context) => {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
